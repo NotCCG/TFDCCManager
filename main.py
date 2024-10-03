@@ -28,14 +28,6 @@ print('Bot Client Setup: [COMPLETE]')
 async def on_ready():
     print("CCManager: [ONLINE]")
 
-# Embeds Setup
-missingperms_administrator_embed = discord.Embed(
-    title="**:x: Error**",
-    description="""Sorry you are not allowed to use this command
-
-    **Missing Permission:** ``manage_messages``""",
-    colour=discord.Colour.red(),
-)
 
 # Bot Stuffs
 

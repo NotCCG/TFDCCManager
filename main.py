@@ -1,6 +1,8 @@
 import time
 from typing import Final
 import os
+
+import discord
 from dotenv import load_dotenv
 from discord import Intents
 from discord.ext import commands
@@ -26,32 +28,45 @@ print('Bot Client Setup: [COMPLETE]')
 async def on_ready():
     print("CCManager: [ONLINE]")
 
+# Embeds Setup
+missingperms_administrator_embed = discord.Embed(
+    title="**:x: Error**",
+    description="""Sorry you are not allowed to use this command
+
+    **Missing Permission:** ``manage_messages``""",
+    colour=discord.Colour.red(),
+)
+
 # Bot Stuffs
 
 @botClient.command()
+@commands.has_permissions(manage_messages=True)
 async def CleanDupes(ctx):
+    correct_channel = discord.utils.get(botClient.get_all_channels(), id=726169466768982098)
     channel = ctx.channel
     message_history = {}
     two_weeks_ago = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(weeks=2)
     await ctx.message.delete()
 
-    async for message in channel.history(limit=None):
-        if message.author.bot:
-            continue
+    if ctx.channel != correct_channel:
+        print('incorrect channel')
+        return
+    else:
+        async for message in channel.history(limit=None):
+            if message.author.bot:
+                continue
 
-        if message.created_at < two_weeks_ago:
-            await message.delete()
-            await asyncio.sleep(5)
-            continue
+            if message.created_at < two_weeks_ago:
+                await message.delete()
+                await asyncio.sleep(2)
+                continue
 
-        if message.content in message_history:
-            await message.delete()
-            await asyncio.sleep(5)
+            if message.content in message_history:
+                await message.delete()
+                await asyncio.sleep(2)
 
-        else:
-            message_history[message.content] = message.id
-
-
+            else:
+                message_history[message.content] = message.id
 
 
 botClient.run(TOKEN)

@@ -30,11 +30,10 @@ async def on_ready():
 
 
 # Bot Stuffs
-
 @botClient.command()
 @commands.has_permissions(manage_messages=True)
 async def CleanDupes(ctx):
-    correct_channel = discord.utils.get(botClient.get_all_channels(), id=726169466768982098)
+    correct_channel = discord.utils.get(botClient.get_all_channels(), id=1291191686650789951)
     channel = ctx.channel
     message_history = {}
     two_weeks_ago = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(weeks=2)
@@ -42,6 +41,7 @@ async def CleanDupes(ctx):
 
     if ctx.channel != correct_channel:
         print('incorrect channel')
+        await ctx.message.delete
         return
     else:
         async for message in channel.history(limit=None):
@@ -60,5 +60,10 @@ async def CleanDupes(ctx):
             else:
                 message_history[message.content] = message.id
 
+@CleanDupes.error
+async def cleanDupes_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        print('unauthorized user attempted use')
+        await ctx.message.delete
 
 botClient.run(TOKEN)

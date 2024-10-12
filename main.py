@@ -48,7 +48,7 @@ async def CleanDupes(ctx):
             if message.author.bot:
                 continue
 
-            if message.created_at < two_weeks_ago:
+            if message.created_at > two_weeks_ago:
                 await message.delete()
                 await asyncio.sleep(2)
                 continue

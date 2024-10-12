@@ -64,6 +64,7 @@ async def CleanDupes(ctx):
             else:
                 message_history[message.content] = message.id
 
+# Error Handling, outputs error to console as bot will only be online as needed.
 @CleanDupes.error
 async def cleanDupes_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):

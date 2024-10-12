@@ -45,18 +45,22 @@ async def CleanDupes(ctx):
         return
     else:
         async for message in channel.history(limit=None):
+            # Check to make sure the message is from a bot. Ignores if it is.
             if message.author.bot:
                 continue
 
+            # Check to see if the message is more than two weeks old, deletes if it is
             if message.created_at > two_weeks_ago:
                 await message.delete()
                 await asyncio.sleep(2)
                 continue
 
+            # Checks message content matches any in the message_history list. Deletes if it is.
             if message.content in message_history:
                 await message.delete()
                 await asyncio.sleep(2)
 
+            # If the message does not match anything in the list, it is added.
             else:
                 message_history[message.content] = message.id
 
@@ -65,5 +69,9 @@ async def cleanDupes_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         print('unauthorized user attempted use')
         await ctx.message.delete
+
+# You're not a good person.
+# You know that right?
+# Good people, don't end up here.
 
 botClient.run(TOKEN)

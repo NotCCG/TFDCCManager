@@ -33,7 +33,7 @@ async def on_ready():
 @botClient.command()
 @commands.has_permissions(manage_messages=True)
 async def CleanDupes(ctx):
-    correct_channel = discord.utils.get(botClient.get_all_channels(), id=1291191686650789951)
+    correct_channel = discord.utils.get(botClient.get_all_channels(), id=726169466768982098)
     channel = ctx.channel
     message_history = {}
     two_weeks_ago = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(weeks=2)
@@ -50,7 +50,7 @@ async def CleanDupes(ctx):
                 continue
 
             # Check to see if the message is more than two weeks old, deletes if it is
-            if message.created_at > two_weeks_ago:
+            if message.created_at < two_weeks_ago:
                 await message.delete()
                 await asyncio.sleep(2)
                 continue

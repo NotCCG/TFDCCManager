@@ -32,7 +32,7 @@ async def on_ready():
 # Bot Stuffs
 @botClient.command()
 @commands.has_permissions(manage_messages=True)
-async def CleanDupes(ctx):
+async def Clean(ctx):
     correct_channel = discord.utils.get(botClient.get_all_channels(), id=726169466768982098)
     channel = ctx.channel
     message_history = {}
@@ -65,7 +65,7 @@ async def CleanDupes(ctx):
                 message_history[message.content] = message.id
 
 # Error Handling, outputs error to console as bot will only be online as needed.
-@CleanDupes.error
+@Clean.error
 async def cleanDupes_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         print('unauthorized user attempted use')

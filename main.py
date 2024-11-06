@@ -33,15 +33,15 @@ async def on_ready():
 @botClient.command()
 @commands.has_permissions(manage_messages=True)
 async def Clean(ctx):
-    correct_channel = discord.utils.get(botClient.get_all_channels(), id=726169466768982098)
+    approved_channels = [726169466768982098, 726169758806048839, 726171251852312576, 1291191686650789951]
     channel = ctx.channel
     message_history = {}
     two_weeks_ago = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(weeks=2)
     await ctx.message.delete()
 
-    if ctx.channel != correct_channel:
+    if channel.id not in approved_channels:
         print('incorrect channel')
-        await ctx.message.delete
+        await ctx.message.delete()
         return
     else:
         async for message in channel.history(limit=None):
